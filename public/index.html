@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pagina</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0rc2/jquery.mobile-1.0rc2.min.css"/>
+    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.0rc2/jquery.mobile-1.0rc2.min.js"></script>
+</head>
+
+<body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket;
+    socket = io.connect('//' + document.domain);
+
+
+    function connect(username) {
+        socket.emit('setUsername', {username:username});
+        socket.on('joined', function(data) {
+            alert("joined");
+        });
+
+        socket.on('broadcast', function(data) {
+            //alert('broadcast: ' + JSON.stringify(data));
+        });
+
+        socket.on('connected', function(data) {
+            alert('connected');
+            for (user in data.users) {
+                $("#usersView").append("<li><a href='#user'><h3>" + user + "</h3></a></li>");
+            }
+
+            $("#usersView").listview("refresh");
+
+        });
+    }
+
+    function sendNews() {
+        socket.on('news', function (data) {
+            console.log(data);
+            //$("#debug").text(JSON.stringify(data));
+            socket.emit('my other event', { my: 'data' });
+        });
+    }
+
+</script>
+
+
+<!-- Start of first page -->
+<div data-role="page" id="splash" data-theme="a">
+
+    <div data-role="header">
+        <h1>Pagina</h1>
+    </div>
+    <!-- /header -->
+
+    <!--
+    <div data-role="content">
+        <div data-role="fieldcontain" class="ui-hide-label">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" value="" placeholder="Username"/>
+            <a href="#home" data-role="button">Join</a>
+        </div>
+    </div>
+    -->
+    <!-- /content -->
+
+    <div data-role="content">
+        <ul data-role="listview" data-inset="true" data-theme="a">
+            <li>
+                <label for="strobe1">Strobe 1:</label>
+                <select name="strobe1" id="strobe1" data-role="slider">
+                    <option value="off">Off</option>
+                    <option value="on">On</option>
+                </select>
+                <input type="range" name="strobe1slider" id="strobe1slider" value="0" min="0" max="128"/>
+            </li>
+
+            <li>
+                <label for="strobe2">Strobe 2:</label>
+                <select name="strobe2" id="strobe2" data-role="slider">
+                    <option value="off">Off</option>
+                    <option value="on">On</option>
+                </select>
+                <input type="range" name="strobe2slider" id="strobe2slider" value="0" min="0" max="128"/>
+            </li>
+
+
+            <li>
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>Light Effects:</legend>
+                    <input type="checkbox" name="cble1" id="cble1" class="custom"/>
+                    <label for="cble1">star</label>
+
+                    <input type="checkbox" name="cble2" id="cble2" class="custom"/>
+                    <label for="cble2">flower</label>
+
+                    <input type="checkbox" name="cble3" id="cble3" class="custom"/>
+                    <label for="cble3">viz</label>
+                </fieldset>
+            </li>
+
+            <li>
+                <label for="sliderlowpass">Low Pass:</label>
+                <input type="range" name="sliderlowpass" id="sliderlowpass" value="0" min="0" max="128"/>
+            </li>
+
+            <li>
+                <label for="sliderhighpass">High Pass:</label>
+                <input type="range" name="sliderhighpass" id="sliderhighpass" value="0" min="0" max="128"/>
+            </li>
+
+            <li>
+                <input type="button" name="btnBeatRepeat4" id="btnBeatRepeat4" value="Beat Repeat 4"/>
+                <input type="button" name="btnBeatRepeat4" id="btnBeatRepeat8" value="Beat Repeat 8"/>
+
+            </li>
+
+        </ul>
+
+        <ul data-role="listview" id="usersView" data-theme="a">
+            <!--
+            <li>
+                <a href="index.html">
+                <h3>Broken Bells</h3>
+                </a>
+            </li>
+            <li>
+                <a href="index.html">
+                <h3>Warning</h3>
+                </a>
+            </li>
+            -->
+
+        </ul>
+
+    </div>
+
+
+
+
+</div>
+<!-- /page -->
+
+
+<div data-role="page" id="home" data-theme="a">
+    <div data-role="header">
+        <h1>Home</h1>
+    </div>
+    <!-- /header -->
+
+
+    <div data-role="content">
+
+
+    </div>
+
+</div>
+
+<!-- Start of second page -->
+<div data-role="page" id="bar" data-theme="a">
+
+    <div data-role="header">
+        <h1>Bar</h1>
+    </div>
+    <!-- /header -->
+
+    <div data-role="content">
+        <p>I'm first in the source order so I'm shown as the page.</p>
+
+        <p><a href="#foo">Back to foo</a></p>
+    </div>
+    <!-- /content -->
+
+    <div data-role="footer">
+        <h4>Page Footer</h4>
+    </div>
+    <!-- /footer -->
+</div>
+<!-- /page -->
+
+
+<div data-role="page" id="dialog">
+    <div data-role="header" data-theme="a">
+        <h1>Dialog</h1>
+    </div>
+
+    <div data-role="content" data-theme="a">
+        <h1>Delete page?</h1>
+
+        <p>This is a regular page, styled as a dialog. To create a dialog, just link to a normal page and
+            include a transition and <code>data-rel="dialog"</code> attribute.</p>
+        <a href="#foo" data-role="button" data-rel="back" data-theme="a">Sounds good</a>
+        <a href="#foo" data-role="button" data-rel="back" data-theme="a">Cancel</a>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $("#btnJoin").bind("click", function(event, ui) {
+        connect();
+
+        $.mobile.changePage($("#home"), {});
+        //$("#dialog").dialog('open');
+
+        // connect
+
+        // switch to page foo
+    });
+
+    $("#home").live('pagebeforeshow', function(event, ui) {
+        prevPage = ui.prevPage[0].id;
+        if (prevPage == "splash") {
+            connect($("#username").attr("value"));
+            //sendNews();
+        }
+    });
+
+
+    function wireDjCommands() {
+        $("#strobe1").change(function() {
+            sendDjCommand("strobe1", $("#strobe1").attr("value") == 'on', $("#strobe1slider").attr("value"));
+        });
+
+        $("#strobe1slider").change(function(){
+            sendDjCommand("strobe1", $("#strobe1").attr("value") == 'on', $(this).val());
+        });
+
+
+        $("#strobe2").change(function() {
+            sendDjCommand("strobe2", $("#strobe2").attr("value") == 'on', $("#strobe2slider").attr("value"));
+        });
+
+        $("#strobe2slider").change(function(){
+            sendDjCommand("strobe2", $("#strobe2").attr("value") == 'on', $(this).val());
+        });
+
+
+
+        $("#cble1").change(function() {
+            sendDjCommand("cble1", $("#cble1").attr("checked") == 'checked', -1);
+        });
+
+        $("#cble2").change(function() {
+            sendDjCommand("cble2", $("#cble2").attr("checked") == 'checked', -1);
+        });
+
+        $("#cble3").change(function() {
+            sendDjCommand("cble3", $("#cble3").attr("checked") == 'checked', -1);
+        });
+
+
+        // low pas
+        $("#sliderlowpass").change(function() {
+            sendDjCommand("lowpass", true, $(this).val());
+        });
+
+        // high pass
+        $("#sliderhighpass").change(function(){
+            sendDjCommand("highpass", true, $(this).val());
+        });
+
+        // beat repeats
+        $("#btnBeatRepeat4").bind('click', function() {
+            sendDjCommand('beatrepeat', true, 4);
+        });
+
+        $("#btnBeatRepeat8").bind('click', function() {
+            sendDjCommand('beatrepeat', true, 8);
+        });
+    }
+
+    $(document).ready(function(){
+        wireDjCommands();
+    });
+
+
+    function sendDjCommand(command, on, value) {
+        cmdPacket = {command: command, on: on, value: value};
+        socket.emit('djCommand', cmdPacket);
+    }
+
+</script>
+
+</body>
+</html>
