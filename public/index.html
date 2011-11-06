@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>We/J</title>
+    <title>we/J</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,15 +17,16 @@
     var socket;
     socket = io.connect('//' + document.domain);
 
+    socket.on('broadcast', function(data) {
+        console.log(data);
+        //alert('broadcast: ' + JSON.stringify(data));
+    });
+
 
     function connect(username) {
         socket.emit('setUsername', {username:username});
         socket.on('joined', function(data) {
             alert("joined");
-        });
-
-        socket.on('broadcast', function(data) {
-            //alert('broadcast: ' + JSON.stringify(data));
         });
 
         socket.on('connected', function(data) {
@@ -54,7 +55,12 @@
 <div data-role="page" id="splash" data-theme="a">
 
     <div data-role="header">
-        <h1>We/J</h1>
+        <div data-role="navbar"  data-iconpos="bottom">
+            <ul>
+                <li><a href="#playlist" data-icon="plus">Playlist</a></li>
+                <li><a href="#splash" data-icon="grid">DJ</a></li>
+            </ul>
+        </div>
     </div>
 
 
@@ -73,16 +79,20 @@
 
     <div data-role="content" data-theme="a">
 
-        <div data-role="fieldcontain" class="ui-hide-label">
-            <label for="search-basic">Search</label>
-            <input type="search" id="txtSearch" name="search" id="search-basic" value="" data-theme="a" placeholder="Artist or Track" />
-            <input type="button" name="btnSearch" id="btnSearch" value="I Wanna DJ" />
-
-        </div>
-
-
         <ul data-role="listview" data-inset="true" data-theme="a">
             <li>
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>Lights:</legend>
+                    <input type="checkbox" name="cble1" id="cble1" class="custom"/>
+                    <label for="cble1">star</label>
+
+                    <input type="checkbox" name="cble2" id="cble2" class="custom"/>
+                    <label for="cble2">flower</label>
+
+                    <input type="checkbox" name="cble3" id="cble3" class="custom"/>
+                    <label for="cble3">viz</label>
+                </fieldset>
+
                 <input type="checkbox" name="strobe1" id="strobe1" class="custom"/>
                 <label for="strobe1">Strobe 1</label>
             	
@@ -92,9 +102,8 @@
                     <option value="on">On</option>
                 </select-->
                 <input type="range" name="strobe1slider" id="strobe1slider" value="0" min="0" max="128"/>
-            </li>
 
-            <li>
+
                 <input type="checkbox" name="strobe2" id="strobe2" class="custom"/>
                 <label for="strobe2">Strobe 2</label>
             	
@@ -108,33 +117,33 @@
 
 
             <li>
-                <fieldset data-role="controlgroup" data-type="horizontal">
-                    <legend>Light Effects:</legend>
-                    <input type="checkbox" name="cble1" id="cble1" class="custom"/>
-                    <label for="cble1">star</label>
-
-                    <input type="checkbox" name="cble2" id="cble2" class="custom"/>
-                    <label for="cble2">flower</label>
-
-                    <input type="checkbox" name="cble3" id="cble3" class="custom"/>
-                    <label for="cble3">viz</label>
-                </fieldset>
             </li>
 
             <li>
                 <label for="sliderlowpass">Low Pass:</label>
                 <input type="range" name="sliderlowpass" id="sliderlowpass" value="0" min="0" max="128"/>
-            </li>
 
-            <li>
                 <label for="sliderhighpass">High Pass:</label>
                 <input type="range" name="sliderhighpass" id="sliderhighpass" value="0" min="0" max="128"/>
+
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>Beat Repeat:</legend>
+                    <input type="checkbox" name="cbbr4" id="cbbr4" class="custom"/>
+                    <label for="cbbr4">4</label>
+
+                    <input type="checkbox" name="cbbr8" id="cbbr8" class="custom"/>
+                    <label for="cbbr8">8</label>
+                </fieldset>
+
             </li>
 
+
             <li>
+
+                <!--
                 <input type="button" name="btnBeatRepeat4" id="btnBeatRepeat4" value="Beat Repeat 4"/>
                 <input type="button" name="btnBeatRepeat4" id="btnBeatRepeat8" value="Beat Repeat 8"/>
-
+                -->
             </li>
 
         </ul>
@@ -158,11 +167,59 @@
     </div>
 
 
-
-
+    <div data-role="footer">
+        <h1>we/J</h1>
+    </div>
 </div>
 <!-- /page -->
 
+
+<div data-role="page" id="playlist" data-theme="a">
+
+    <div data-role="header">
+        <div data-role="navbar"  data-iconpos="bottom">
+            <ul>
+                <li><a href="#playlist" data-icon="plus">Playlist</a></li>
+                <li><a href="#splash" data-icon="grid">DJ</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div data-role="content" data-theme="a">
+        <div data-role="fieldcontain" class="ui-hide-label">
+            <label for="search-basic">Search</label>
+            <input type="search" id="txtSearch" name="search" id="search-basic" value="" data-theme="a" placeholder="Artist or Track" />
+            <input type="button" name="btnSearch" id="btnSearch" value="I Wanna DJ" />
+            <input type="button" name="btnSkip" id="btnSkip" value="Skip" />
+        </div>
+
+        <div>
+
+        </div>
+
+        <ul data-role="listview" id="playlistView" data-theme="a">
+
+            <!--
+            <li>
+                <a href="index.html">
+                <h3>Broken Bells</h3>
+                </a>
+            </li>
+            <li>
+                <a href="index.html">
+                <h3>Warning</h3>
+                </a>
+            </li>
+            -->
+
+        </ul>
+    </div>
+
+
+    <div data-role="footer">
+        <h1>We/J</h1>
+    </div>
+</div>
 
 <div data-role="page" id="home" data-theme="a">
     <div data-role="header">
@@ -284,13 +341,48 @@
         });
 
         // beat repeats
+        $("#cbbr4").change(function() {
+            sendDjCommand("cbbr4", 9, true, $("#cbbr4").attr("checked") == 'checked' ? 1 : 0);
+        });
+
+        $("#cbbr8").change(function() {
+            sendDjCommand("cbbr8", 10, true, $("#cbbr8").attr("checked") == 'checked' ? 1 : 0);
+        });
+
+
+        /*
         $("#btnBeatRepeat4").bind('click', function() {
-            sendDjCommand('beatrepeat', 9, true, 4);
+            sendDjCommand('beatrepeat4', 9, true, 1);
         });
 
         $("#btnBeatRepeat8").bind('click', function() {
-            sendDjCommand('beatrepeat', 9, true, 8);
+            sendDjCommand('beatrepeat8', 10, true, 1);
         });
+        */
+    }
+
+    function renderPlaylist(data) {
+        console.log('playlist', data);
+        $("#playlistView li").remove();
+
+        $("#playlistView").append("<li data-role='list-divider'>Now Playing</li>");
+        $("#playlistView").append("<li><h3>" + data.currentTrack.name + "</h3><p>" + data.currentTrack.artist + "</p></li>");
+
+        if(data.playlist && data.playlist.length > 0){
+            $("#playlistView").append("<li data-role='list-divider'>Next Up</li>");
+            for (index in data.playlist) {
+                track = data.playlist[index];
+                $("#playlistView").append("<li><h3>" + track.name + "</h3><p>" + track.artist + "</p></li>");
+            }
+        }
+
+
+        try {
+            $("#playlistView").listview("refresh");
+        }
+        catch(e){
+
+        }
     }
 
     $(document).ready(function(){
@@ -305,6 +397,14 @@
                 socket.emit('play', track);
             });
         });
+
+        $("#btnSkip").bind('click', function(){
+            socket.emit('skip', {});
+        });
+
+        socket.emit('playlist', renderPlaylist);
+
+        socket.on('playlist', renderPlaylist);
     });
 
 
