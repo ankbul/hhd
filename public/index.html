@@ -72,20 +72,26 @@
     <div data-role="content">
         <ul data-role="listview" data-inset="true" data-theme="a">
             <li>
-                <label for="strobe1">Strobe 1:</label>
+                <input type="checkbox" name="strobe1" id="strobe1" class="custom"/>
+                <label for="strobe1">Strobe 1</label>
+            	
+                <!--label for="strobe1">Strobe 1:</label>
                 <select name="strobe1" id="strobe1" data-role="slider">
                     <option value="off">Off</option>
                     <option value="on">On</option>
-                </select>
+                </select-->
                 <input type="range" name="strobe1slider" id="strobe1slider" value="0" min="0" max="128"/>
             </li>
 
             <li>
-                <label for="strobe2">Strobe 2:</label>
+                <input type="checkbox" name="strobe2" id="strobe2" class="custom"/>
+                <label for="strobe2">Strobe 2</label>
+            	
+                <!--label for="strobe2">Strobe 2:</label>
                 <select name="strobe2" id="strobe2" data-role="slider">
                     <option value="off">Off</option>
                     <option value="on">On</option>
-                </select>
+                </select-->
                 <input type="range" name="strobe2slider" id="strobe2slider" value="0" min="0" max="128"/>
             </li>
 
@@ -224,7 +230,8 @@
 
     function wireDjCommands() {
         $("#strobe1").change(function() {
-            sendDjCommand("strobe1", 0, true, $("#strobe1").attr("value") == "on" ? 1 : 0);
+        	sendDjCommand("strobe1", 0, true, $("#strobe1").attr("checked") == "checked" ? 1 : 0);
+            //sendDjCommand("strobe1", 0, true, $("#strobe1").attr("value") == "on" ? 1 : 0);
         });
 
         $("#strobe1slider").change(function(){
@@ -233,7 +240,8 @@
 
 
         $("#strobe2").change(function() {
-            sendDjCommand("strobe2", 2, true, $("#strobe2").attr("value") == "on" ? 1 : 0);
+        	sendDjCommand("strobe2", 0, true, $("#strobe2").attr("checked") == "checked" ? 1 : 0);
+            //sendDjCommand("strobe2", 2, true, $("#strobe2").attr("value") == "on" ? 1 : 0);
         });
 
         $("#strobe2slider").change(function(){
