@@ -81,8 +81,9 @@
 
         <ul data-role="listview" data-inset="true" data-theme="a">
             <li>
+                <h1 style="text-align: center">Lights</h1>
                 <fieldset data-role="controlgroup" data-type="horizontal">
-                    <legend>Lights:</legend>
+
                     <input type="checkbox" name="cble1" id="cble1" class="custom"/>
                     <label for="cble1">star</label>
 
@@ -95,23 +96,11 @@
 
                 <input type="checkbox" name="strobe1" id="strobe1" class="custom"/>
                 <label for="strobe1">Strobe 1</label>
-            	
-                <!--label for="strobe1">Strobe 1:</label>
-                <select name="strobe1" id="strobe1" data-role="slider">
-                    <option value="off">Off</option>
-                    <option value="on">On</option>
-                </select-->
                 <input type="range" name="strobe1slider" id="strobe1slider" value="0" min="0" max="128"/>
 
 
                 <input type="checkbox" name="strobe2" id="strobe2" class="custom"/>
                 <label for="strobe2">Strobe 2</label>
-            	
-                <!--label for="strobe2">Strobe 2:</label>
-                <select name="strobe2" id="strobe2" data-role="slider">
-                    <option value="off">Off</option>
-                    <option value="on">On</option>
-                </select-->
                 <input type="range" name="strobe2slider" id="strobe2slider" value="0" min="0" max="128"/>
             </li>
 
@@ -120,30 +109,22 @@
             </li>
 
             <li>
+                <h1 style="text-align: center">Sound</h1>
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <input type="checkbox" name="cbbr4" id="cbbr4" class="custom"/>
+                    <label for="cbbr4">Repeat 4</label>
+
+                    <input type="checkbox" name="cbbr8" id="cbbr8" class="custom"/>
+                    <label for="cbbr8">Repeat 8</label>
+                </fieldset>
+
                 <label for="sliderlowpass">Low Pass:</label>
                 <input type="range" name="sliderlowpass" id="sliderlowpass" value="0" min="0" max="128"/>
 
                 <label for="sliderhighpass">High Pass:</label>
                 <input type="range" name="sliderhighpass" id="sliderhighpass" value="0" min="0" max="128"/>
 
-                <fieldset data-role="controlgroup" data-type="horizontal">
-                    <legend>Beat Repeat:</legend>
-                    <input type="checkbox" name="cbbr4" id="cbbr4" class="custom"/>
-                    <label for="cbbr4">4</label>
 
-                    <input type="checkbox" name="cbbr8" id="cbbr8" class="custom"/>
-                    <label for="cbbr8">8</label>
-                </fieldset>
-
-            </li>
-
-
-            <li>
-
-                <!--
-                <input type="button" name="btnBeatRepeat4" id="btnBeatRepeat4" value="Beat Repeat 4"/>
-                <input type="button" name="btnBeatRepeat4" id="btnBeatRepeat8" value="Beat Repeat 8"/>
-                -->
             </li>
 
         </ul>
