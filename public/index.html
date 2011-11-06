@@ -228,7 +228,7 @@
         });
 
         $("#strobe1slider").change(function(){
-            sendDjCommand("strobe1", 1, $("#strobe1").attr("value") == 'on', parseInt($(this).val()) / 128);
+            sendDjCommand("strobe1", 1, true, parseInt($(this).val()) / 128);
         });
 
 
@@ -237,7 +237,7 @@
         });
 
         $("#strobe2slider").change(function(){
-            sendDjCommand("strobe2", 3, $("#strobe2").attr("value") == 'on', parseInt($(this).val()) / 128);
+            sendDjCommand("strobe2", 3, true, parseInt($(this).val()) / 128);
         });
 
 
