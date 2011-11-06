@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sys-Party</title>
+    <title>We/J</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -54,8 +54,10 @@
 <div data-role="page" id="splash" data-theme="a">
 
     <div data-role="header">
-        <h1>Sys-Party</h1>
+        <h1>We/J</h1>
     </div>
+
+
     <!-- /header -->
 
     <!--
@@ -69,7 +71,16 @@
     -->
     <!-- /content -->
 
-    <div data-role="content">
+    <div data-role="content" data-theme="a">
+
+        <div data-role="fieldcontain" class="ui-hide-label">
+            <label for="search-basic">Search</label>
+            <input type="search" id="txtSearch" name="search" id="search-basic" value="" data-theme="a" placeholder="Artist or Track" />
+            <input type="button" name="btnSearch" id="btnSearch" value="I Wanna DJ" />
+
+        </div>
+
+
         <ul data-role="listview" data-inset="true" data-theme="a">
             <li>
                 <input type="checkbox" name="strobe1" id="strobe1" class="custom"/>
@@ -284,6 +295,16 @@
 
     $(document).ready(function(){
         wireDjCommands();
+
+        $("#btnSearch").bind('click', function(){
+            var searchInput = $("#txtSearch").val();
+            // call the spotify api
+            $.getJSON("http://ws.spotify.com/search/1/track.json?q=" + searchInput, function(data){
+                var track = data.tracks[0];
+                //console.log(track);
+                socket.emit('play', track);
+            });
+        });
     });
 
 

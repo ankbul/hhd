@@ -40,6 +40,18 @@ io.sockets.on('connection',
         oscClient.sendSimple('/sys/party', [data.id, data.value])
     )
 
+    socket.on('play',
+      (data) =>
+        console.log(data)
+        try
+          oscClient = new osc(6666, '10.68.69.196')
+          packet = ['song', data.href] #, data.name, data.artists[0].name]
+          oscClient.sendSimple('/sys/party', packet)
+          console.log "Sending song to osc:", packet
+        catch error
+          console.log 'Play Error!', error
+    )
+
     socket.on('broadcast', (data) =>
       packet = {username: socket.username, message: "Message from #{socket.username}: #{data.message}", user: users}
       socket.emit('broadcast', packet)
