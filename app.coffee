@@ -1,5 +1,10 @@
 app = require('express').createServer()
 io = require('socket.io').listen(app)
+dgram = require 'dgram'
+
+#console.log(__dirname)
+osc = require(__dirname + '/osc').Client
+console.log(osc)
 
 users = {}
 
@@ -31,6 +36,8 @@ io.sockets.on('connection',
     socket.on('djCommand',
       (data) =>
         console.log(data)
+        oscClient = new osc(6666, '10.68.69.196')
+        oscClient.sendSimple('/sys/party', [data.id, data.value])
     )
 
     socket.on('broadcast', (data) =>

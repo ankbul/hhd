@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pagina</title>
+    <title>Sys-Party</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -54,7 +54,7 @@
 <div data-role="page" id="splash" data-theme="a">
 
     <div data-role="header">
-        <h1>Pagina</h1>
+        <h1>Sys-Party</h1>
     </div>
     <!-- /header -->
 
@@ -224,54 +224,53 @@
 
     function wireDjCommands() {
         $("#strobe1").change(function() {
-            sendDjCommand("strobe1", $("#strobe1").attr("value") == 'on', $("#strobe1slider").attr("value"));
+            sendDjCommand("strobe1", 0, true, $("#strobe1").attr("value") == "on" ? 1 : 0);
         });
 
         $("#strobe1slider").change(function(){
-            sendDjCommand("strobe1", $("#strobe1").attr("value") == 'on', $(this).val());
+            sendDjCommand("strobe1", 1, $("#strobe1").attr("value") == 'on', parseInt($(this).val()) / 128);
         });
 
 
         $("#strobe2").change(function() {
-            sendDjCommand("strobe2", $("#strobe2").attr("value") == 'on', $("#strobe2slider").attr("value"));
+            sendDjCommand("strobe2", 2, true, $("#strobe2").attr("value") == "on" ? 1 : 0);
         });
 
         $("#strobe2slider").change(function(){
-            sendDjCommand("strobe2", $("#strobe2").attr("value") == 'on', $(this).val());
+            sendDjCommand("strobe2", 3, $("#strobe2").attr("value") == 'on', parseInt($(this).val()) / 128);
         });
-
 
 
         $("#cble1").change(function() {
-            sendDjCommand("cble1", $("#cble1").attr("checked") == 'checked', -1);
+            sendDjCommand("cble1", 4, true, $("#cble1").attr("checked") == 'checked' ? 1 : 0);
         });
 
         $("#cble2").change(function() {
-            sendDjCommand("cble2", $("#cble2").attr("checked") == 'checked', -1);
+            sendDjCommand("cble2", 5, true, $("#cble2").attr("checked") == 'checked' ? 1 : 0);
         });
 
         $("#cble3").change(function() {
-            sendDjCommand("cble3", $("#cble3").attr("checked") == 'checked', -1);
+            sendDjCommand("cble3", 6, true, $("#cble3").attr("checked") == 'checked' ? 1 : 0);
         });
 
 
         // low pas
         $("#sliderlowpass").change(function() {
-            sendDjCommand("lowpass", true, $(this).val());
+            sendDjCommand("lowpass", 7, true, parseInt($(this).val()) / 128);
         });
 
         // high pass
         $("#sliderhighpass").change(function(){
-            sendDjCommand("highpass", true, $(this).val());
+            sendDjCommand("highpass", 8, true, parseInt($(this).val()) / 128);
         });
 
         // beat repeats
         $("#btnBeatRepeat4").bind('click', function() {
-            sendDjCommand('beatrepeat', true, 4);
+            sendDjCommand('beatrepeat', 9, true, 4);
         });
 
         $("#btnBeatRepeat8").bind('click', function() {
-            sendDjCommand('beatrepeat', true, 8);
+            sendDjCommand('beatrepeat', 9, true, 8);
         });
     }
 
@@ -280,9 +279,11 @@
     });
 
 
-    function sendDjCommand(command, on, value) {
-        cmdPacket = {command: command, on: on, value: value};
-        socket.emit('djCommand', cmdPacket);
+    function sendDjCommand(command, commandId, send, value) {
+        if(send) {
+            cmdPacket = {command: command, id: commandId, value: value};
+            socket.emit('djCommand', cmdPacket);
+        }
     }
 
 </script>
