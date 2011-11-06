@@ -4,9 +4,15 @@ dgram = require 'dgram'
 
 #console.log(__dirname)
 osc = require(__dirname + '/osc').Client
-console.log(osc)
+
 
 users = {}
+
+
+# rdio config
+OAuth = require('oauth').OAuth
+#rdio = require('rdio')({rdio_api_key: 'xap5xzbtdek3zvb54ggb9wna', rdio_api_shared: '94QPfmkruy', callback_url: ct.config.host+":"+ct.config.port+"/oauth/callback"})
+
 
 app.listen(80);
 
