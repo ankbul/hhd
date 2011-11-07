@@ -6,29 +6,15 @@ dgram = require 'dgram'
 osc = require(__dirname + '/osc').Client
 
 
+Rdio = require(__dirname + "/rdio")
+rdio = new Rdio(['xap5xzbtdek3zvb54ggb9wna', '94QPfmkruy']);
+
+
 users = {}
 playQueue = []
 currentTrack = {isPlaying: false}
 
 
-# rdio config
-#OAuth = require('oauth').OAuth
-#rdio = require('rdio')({rdio_api_key: 'xap5xzbtdek3zvb54ggb9wna', rdio_api_shared: '94QPfmkruy', callback_url: "10.68.68.24/oauth/callback"})
-
-#rdioSession =  {}
-
-
-#rdio.getRequestToken((error, oauth_token, oauth_token_secret, results) =>
-#  if(error) {
-#    throw new Error(error)
-#  else
-    #store the tokens in the session
-#    rdioSession.oauth_token = oauth_token
-#    rdioSession.oauth_token_secret = oauth_token_secret
-
-    #redirect the user to authorize the token
-#    res.redirect(ct.config.rdio_oauth_auth+oauth_token);
-#)
 
 app.listen(80);
 
@@ -89,6 +75,28 @@ io.sockets.on('connection',
       console.log "Queueing song #{track.name}", (t.name for t in playQueue)
       nextSong()
 
+    updateIcon = (icon, name) ->
+      console.log "searching to update icon #{icon}, #{name}"
+
+      updated = false
+      if currentTrack.track && currentTrack.track.name == name
+        currentTrack.track.icon = icon
+        console.log "icon found = #{icon}"
+        updated = true
+      else
+        i = 0
+        while i < playQueue.length
+          if playQueue[i].name == name
+            playQueue[i].icon = icon
+            updated = true
+          i++
+
+
+      if updated
+        playlistPacket = {currentTrack: currentTrack.track, playlist: playQueue}
+        socket.broadcast.emit('playlist', playlistPacket)
+        socket.emit('playlist', playlistPacket)
+
 
     socket.on('setUsername', (data) =>
       console.log(data)
@@ -125,6 +133,18 @@ io.sockets.on('connection',
         if data.href && data.name && data.artists[0].name
           track = {href:data.href, name:data.name, length:data.length, artist:data.artists[0].name}
           queueSong(track)
+
+          if data['external-ids'] && data['external-ids'][0]
+            extId = data['external-ids'][0]
+            if extId && extId['type'] == 'isrc'
+              isrc =  extId['id']
+              rdio.call("getTracksByISRC", {isrc:isrc}, (err, isrcData) =>
+                console.log isrcData
+                if isrcData && isrcData.result && isrcData.result[0]
+                  irscResult = isrcData.result[0]
+                  updateIcon(irscResult['icon'], irscResult['name'])
+              )
+
         try
           console.log
         catch error
