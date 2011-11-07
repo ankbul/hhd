@@ -18,7 +18,7 @@
     socket = io.connect('//' + document.domain);
 
     socket.on('broadcast', function(data) {
-        console.log(data);
+        //console.log(data);
         //alert('broadcast: ' + JSON.stringify(data));
     });
 
@@ -42,7 +42,7 @@
 
     function sendNews() {
         socket.on('news', function (data) {
-            console.log(data);
+            ///console.log(data);
             //$("#debug").text(JSON.stringify(data));
             socket.emit('my other event', { my: 'data' });
         });
@@ -181,8 +181,7 @@
             <input type="button" name="btnSkip" id="btnSkip" value="Skip" />
         </div>
 
-        <div>
-
+        <div id="nowPlaying">
         </div>
 
         <ul data-role="listview" id="playlistView" data-theme="a">
@@ -335,40 +334,19 @@
         $("#br1slider").change(function(){
             sendDjCommand("br1slider", 10, true, parseInt($(this).val()) / 128);
         });
-
-
-
-        /*
-        // beat repeats
-        $("#cbbr4").change(function() {
-            sendDjCommand("cbbr4", 9, true, $("#cbbr4").attr("checked") == 'checked' ? 1 : 0);
-        });
-
-        $("#cbbr8").change(function() {
-            sendDjCommand("cbbr8", 10, true, $("#cbbr8").attr("checked") == 'checked' ? 1 : 0);
-        });
-          */
-
-        /*
-        $("#btnBeatRepeat4").bind('click', function() {
-            sendDjCommand('beatrepeat4', 9, true, 1);
-        });
-
-        $("#btnBeatRepeat8").bind('click', function() {
-            sendDjCommand('beatrepeat8', 10, true, 1);
-        });
-        */
     }
 
     function renderPlaylist(data) {
-        console.log('playlist', data);
+        //console.log('playlist', data);
         $("#playlistView li").remove();
 
         var updated = false;
         if(data && data.currentTrack) {
+
             $("#playlistView").append("<li data-role='list-divider'>Now Playing</li>");
             if(data.currentTrack.icon != null) {
                 $("#playlistView").append("<li><img src='" + data.currentTrack.icon +  "' /><h3>" + data.currentTrack.name + "</h3><p>" + data.currentTrack.artist + "</p></li>");
+                //$("#nowPlaying").append("<h1>"+data.currentTrack.name+"</h1>");
             } else {
                 $("#playlistView").append("<li><h3>" + data.currentTrack.name + "</h3><p>" + data.currentTrack.artist + "</p></li>");
             }

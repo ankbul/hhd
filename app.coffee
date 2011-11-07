@@ -139,7 +139,7 @@ io.sockets.on('connection',
             if extId && extId['type'] == 'isrc'
               isrc =  extId['id']
               rdio.call("getTracksByISRC", {isrc:isrc}, (err, isrcData) =>
-                console.log isrcData
+                #console.log isrcData
                 if isrcData && isrcData.result && isrcData.result[0]
                   irscResult = isrcData.result[0]
                   updateIcon(irscResult['icon'], irscResult['name'])
