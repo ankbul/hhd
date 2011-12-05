@@ -15,6 +15,11 @@ playQueue = []
 currentTrack = {isPlaying: false}
 
 
+arguments = process.argv.splice(2)
+console.log arguments
+
+MAXMSP_SERVER_IP = arguments[0]
+
 
 app.listen(80);
 
@@ -32,7 +37,7 @@ io.sockets.on('connection',
       nextSongIn = track.length*1000
       console.log "Next song in #{nextSongIn}"
       currentTrack.timeoutId = setTimeout(clearSong, nextSongIn)
-      oscClient = new osc(6666, '10.68.69.196')
+      oscClient = new osc(6666, MAXMSP_SERVER_IP)
       packet = ['song', track.href] #, data.name, data.artists[0].name]
       oscClient.sendSimple('/sys/party', packet)
       console.log "Sending song to osc:", packet
@@ -117,7 +122,7 @@ io.sockets.on('connection',
     socket.on('djCommand',
       (data) =>
         console.log(data)
-        oscClient = new osc(6666, '10.68.69.196')
+        oscClient = new osc(6666, MAXMSP_SERVER_IP)
         oscClient.sendSimple('/sys/party', [data.id, data.value])
         #socket.emit('broadcast', {foo:'bar'})
 

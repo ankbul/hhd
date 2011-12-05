@@ -162,13 +162,13 @@
 <!-- /page -->
 
 
-<div data-role="page" id="playlist" data-theme="a">
+<div data-role="page" id="playlist" data-theme="a" >
 
     <div data-role="header">
         <div data-role="navbar"  data-iconpos="bottom">
             <ul>
-                <li><a href="#playlist" data-icon="plus">Playlist</a></li>
-                <li><a href="#splash" data-icon="grid">DJ</a></li>
+                <li><a href="#playlist" data-icon="plus" data-transition="none">Playlist</a></li>
+                <li><a href="#splash" data-icon="grid" data-transition="none">DJ</a></li>
             </ul>
         </div>
     </div>
@@ -401,6 +401,9 @@
         socket.on('playlist', renderPlaylist);
     });
 
+    $(document).bind("mobileinit", function(){
+      $.mobile.defaultPageTransition = 'none';
+    });
 
     function sendDjCommand(command, commandId, send, value) {
         if(send) {
