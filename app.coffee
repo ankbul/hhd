@@ -20,6 +20,10 @@ console.log arguments
 
 MAXMSP_SERVER_IP = arguments[0]
 
+if !arguments[0]?
+	console.log "Please specify a MAX MSP server" 
+	return
+
 
 app.listen(80);
 
